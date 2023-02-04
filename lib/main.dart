@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'screens/auth_screens/login_screen.dart';
+import 'screens/auth_screens/signup_screen.dart';
 
 void main() {
   runApp(const ChatApp());
@@ -17,7 +17,7 @@ class ChatApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginScreen(),
+      home: const SignupScreen(),
     );
   }
 }

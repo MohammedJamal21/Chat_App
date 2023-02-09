@@ -37,16 +37,19 @@ class _SignupScreenState extends State<SignupScreen> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('Sign Up'),
-              SizedBox(
+            children: [
+              const Text('Sign Up'),
+              const SizedBox(
                 height: 50,
               ),
-              SignupForm(),
-              SizedBox(
+              SignupForm(
+                isLoading: isLoading,
+                submit: _submitSignUpForm,
+              ),
+              const SizedBox(
                 height: 50,
               ),
-              Text('Already have an account? Login'),
+              const Text('Already have an account? Login'),
             ],
           ),
         ),

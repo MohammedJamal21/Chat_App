@@ -5,6 +5,7 @@ import 'firebase_options.dart';
 import 'screens/auth_screens/signup_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -26,4 +27,3 @@ class ChatApp extends StatelessWidget {
     );
   }
 }
-

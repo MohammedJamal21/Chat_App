@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
-class SignupForm extends StatelessWidget {
+class SignupForm extends StatefulWidget {
+  final bool isLoading;
+  final Function submit;
+
   const SignupForm({
-    super.key,
+    super.key, required this.isLoading, required this.submit,
   });
 
+  @override
+  State<SignupForm> createState() => _SignupFormState();
+}
+
+class _SignupFormState extends State<SignupForm> {
   @override
   Widget build(BuildContext context) {
     return Form(

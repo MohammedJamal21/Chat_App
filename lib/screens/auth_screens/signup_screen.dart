@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../widgets/auth/signup_form.dart';
 
@@ -12,9 +14,11 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final auth = FirebaseAuth.instance;
+
   bool isLoading = false;
 
-  Future<void> _submitSignUpForm(String email, String password) async {
+  Future<void> _submitSignUpForm(
+      String email, String password, String phoneNumber) async {
     UserCredential userCredential;
 
     try {
@@ -23,11 +27,40 @@ class _SignupScreenState extends State<SignupScreen> {
       });
       userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
+        'email': email,
+        'phoneNumber': phoneNumber,
+      });
+    } on PlatformException catch (error) {
+      String errorMessage = 'An error occurred, please check your credentials.';
+
+      if (error.message != null) {
+        errorMessage = error.message!;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
       setState(() {
         isLoading = false;
       });
     } catch (error) {
-      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error.toString()),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+      print(error);
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 

@@ -27,7 +27,7 @@ class _SignupFormState extends State<SignupForm> {
 
     if (isValid) {
       _form.currentState!.save();
-      widget.submit(email, password);
+      widget.submit(email, password, phoneNumber);
     }
   }
 
@@ -83,7 +83,7 @@ class _SignupFormState extends State<SignupForm> {
                     return 'Enter a valid phone number';
                   }
                   return null;
-                  return null;
+                  
                 },
 
                 keyboardType: TextInputType.phone,

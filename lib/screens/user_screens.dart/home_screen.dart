@@ -6,10 +6,17 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: ChatAppAppBar(),
-      body: Center(
-        child: Text('Hello!'),
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
+    double statusBarHeight = mediaQueryData.padding.top;
+
+    return Scaffold(
+      appBar: ChatAppAppBar(
+        statusBarHeight: statusBarHeight,
+      ),
+      body: const SafeArea(
+        child: Center(
+          child: Text('Hello!'),
+        ),
       ),
     );
   }

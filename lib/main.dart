@@ -37,11 +37,9 @@ class ChatApp extends StatelessWidget {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const SplashScreen();
                       }
-
                       if (!snapshot.hasData) {
                         return const SignupScreen();
                       }
-
                       return const HomeScreen();
                     },
                   ),

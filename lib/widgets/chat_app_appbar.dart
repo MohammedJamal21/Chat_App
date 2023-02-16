@@ -11,24 +11,75 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(statusBarHeight);
     return AppBar(
-      
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.search,
+          ),
+        ),
+        PopupMenuButton(
+          icon: const Icon(
+            Icons.menu,
+          ),
+          position: PopupMenuPosition.under,
+          itemBuilder: (context) {
+            return [
+              const PopupMenuItem(
+                child: Text('New Group'),
+              ),
+              const PopupMenuItem(
+                child: Text('New Broadcast'),
+              ),
+              const PopupMenuItem(
+                child: Text('Linked Devices'),
+              ),
+              const PopupMenuItem(
+                child: Text('Stored Messages'),
+              ),
+              const PopupMenuItem(
+                child: Text('Archived Messages'),
+              ),
+              const PopupMenuItem(
+                child: Text('Settings'),
+              ),
+            ];
+          },
+        )
+      ],
       flexibleSpace: Container(
         decoration: BoxDecoration(
           border: Border.all(),
         ),
-        padding: EdgeInsets.fromLTRB(10, statusBarHeight, 10, 0),
+        padding: EdgeInsets.fromLTRB(25, statusBarHeight, 20, 0),
         child: Row(
           children: [
             const CircleAvatar(
               backgroundColor: Colors.black,
+              radius: 16,
+            ),
+            const SizedBox(
+              width: 10,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                Text('Hey!'),
-                Text('Ahsan'),
+                Text(
+                  'Hey!',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Ahsan',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ],

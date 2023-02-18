@@ -2,6 +2,8 @@ import 'package:chat_app/widgets/chat_app_appbar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = '/home';
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override

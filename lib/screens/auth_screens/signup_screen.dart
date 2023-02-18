@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import '../../widgets/auth/signup_form.dart';
 
 class SignupScreen extends StatefulWidget {
+  static const routeName = '/signup';
+
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
@@ -84,7 +86,18 @@ class _SignupScreenState extends State<SignupScreen> {
               const SizedBox(
                 height: 50,
               ),
-              const Text('Already have an account? Login'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Already have an account?'),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed('/login');
+                    },
+                    child: const Text('Sign Up'),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

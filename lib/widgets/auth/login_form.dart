@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({
+    Key? key,
+    required this.isLoading,
+    required this.submit,
+  }) : super(key: key);
+
+  final bool isLoading;
+  final Function submit;
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -11,6 +18,8 @@ class _LoginFormState extends State<LoginForm> {
   final _form = GlobalKey<FormState>();
   String email = '';
   String password = '';
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +66,7 @@ class _LoginFormState extends State<LoginForm> {
               keyboardType: TextInputType.visiblePassword,
               obscureText: true,
               decoration: const InputDecoration(
-                labelText: "Create password",
+                labelText: "Password*",
                 floatingLabelAlignment: FloatingLabelAlignment.start,
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 border: OutlineInputBorder(),

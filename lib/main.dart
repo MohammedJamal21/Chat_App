@@ -1,4 +1,6 @@
 import 'package:chat_app/screens/auth_screens/login_screen.dart';
+import 'package:chat_app/screens/auth_screens/signup_screen.dart';
+import 'package:chat_app/screens/user_screens.dart/home_screen.dart';
 import 'package:chat_app/screens/user_screens.dart/settings_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,6 +45,20 @@ class ChatApp extends StatelessWidget {
                       return const SettingsScreen();
                     },
                   ),
+            routes: {
+              HomeScreen.routeName: (context) {
+                return const HomeScreen();
+              },
+              SettingsScreen.routeName: (context) {
+                return const SettingsScreen();
+              },
+              LoginScreen.routeName: (context) {
+                return const LoginScreen();
+              },
+              SignupScreen.routeName: (context) {
+                return const SignupScreen();
+              }
+            },
           );
         });
   }

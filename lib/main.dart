@@ -1,10 +1,10 @@
+import 'package:chat_app/screens/auth_screens/login_screen.dart';
 import 'package:chat_app/screens/user_screens.dart/settings_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
-import 'screens/auth_screens/signup_screen.dart';
 import 'screens/splash_screens/splash_screen.dart';
 
 void main() async {
@@ -38,7 +38,7 @@ class ChatApp extends StatelessWidget {
                         return const SplashScreen();
                       }
                       if (!snapshot.hasData) {
-                        return const SignupScreen();
+                        return const LoginScreen();
                       }
                       return const SettingsScreen();
                     },

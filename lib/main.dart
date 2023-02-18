@@ -1,3 +1,4 @@
+import 'package:chat_app/screens/user_screens.dart/settings_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'screens/auth_screens/signup_screen.dart';
 import 'screens/splash_screens/splash_screen.dart';
-import 'screens/user_screens.dart/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +40,7 @@ class ChatApp extends StatelessWidget {
                       if (!snapshot.hasData) {
                         return const SignupScreen();
                       }
-                      return const HomeScreen();
+                      return const SettingsScreen();
                     },
                   ),
           );

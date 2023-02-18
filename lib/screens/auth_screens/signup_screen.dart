@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import '../../widgets/auth/signup_form.dart';
 
 class SignupScreen extends StatefulWidget {
-  static const routeName = '/signup';
+  static const String routeName = '/signup';
 
   const SignupScreen({Key? key}) : super(key: key);
 

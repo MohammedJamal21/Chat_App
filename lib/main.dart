@@ -11,12 +11,17 @@ import 'screens/splash_screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(ChatApp());
+  runApp(const ChatApp());
 }
 
-class ChatApp extends StatelessWidget {
-  ChatApp({super.key});
+class ChatApp extends StatefulWidget {
+  const ChatApp({super.key});
 
+  @override
+  State<ChatApp> createState() => _ChatAppState();
+}
+
+class _ChatAppState extends State<ChatApp> {
   final Future<FirebaseApp> _initializeApp = Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -31,7 +36,7 @@ class ChatApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: app.connectionState == ConnectionState.waiting
+          home: (app.connectionState == ConnectionState.waiting)
                 ? const SplashScreen()
                 : StreamBuilder<User?>(
                     stream: FirebaseAuth.instance.authStateChanges(),
@@ -46,6 +51,9 @@ class ChatApp extends StatelessWidget {
                     },
                   ),
             routes: {
+            SplashScreen.routeName: (context) {
+              return const SplashScreen();
+            },
               HomeScreen.routeName: (context) {
                 return const HomeScreen();
               },
@@ -60,6 +68,7 @@ class ChatApp extends StatelessWidget {
               }
             },
           );
-        });
+      },
+    );
   }
 }

@@ -19,7 +19,17 @@ class _LoginFormState extends State<LoginForm> {
   String email = '';
   String password = '';
 
+  void submitForm() {
+    final bool isValid = _form.currentState!.validate();
 
+    if (isValid) {
+      _form.currentState!.save();
+      widget.submit(
+        email,
+        password,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +67,9 @@ class _LoginFormState extends State<LoginForm> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: TextFormField(
+              onSaved: (newValue) {
+                password = newValue!;
+              },
               validator: (value) {
                 if (value!.isEmpty || value.length < 8) {
                   return 'Password must be equal or more than 8 characters';
@@ -80,22 +93,24 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(
             width: double.infinity,
             height: 50,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                elevation: MaterialStateProperty.all(0),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      10,
+            child: widget.isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(0),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            10,
+                          ),
+                        ),
+                      ),
                     ),
+                    onPressed: () {
+                      submitForm();
+                    },
+                    child: const Text("Login"),
                   ),
-                ),
-              ),
-              onPressed: () {
-                
-              },
-              child: const Text("Login"),
-            ),
           ),
         ],
       ),

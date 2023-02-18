@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -56,7 +57,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onChanged: (value) {},
           ),
           const Spacer(),
-          ElevatedButton(onPressed: () {}, child: const Text('Log Out'))
+          ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+              },
+              child: const Text('Log Out'))
         ],
       ),
     );

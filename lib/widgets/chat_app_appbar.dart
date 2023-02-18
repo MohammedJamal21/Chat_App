@@ -12,47 +12,54 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      
+      toolbarHeight: 70,
+      automaticallyImplyLeading: false,
+    
       actions: [
+       
         IconButton(
           onPressed: () {},
           icon: const Icon(
             Icons.search,
           ),
         ),
-        PopupMenuButton(
-          icon: const Icon(
-            Icons.menu,
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+          child: PopupMenuButton(
+            padding: EdgeInsets.zero,
+            icon: const Icon(
+              Icons.menu,
+            ),
+            position: PopupMenuPosition.under,
+            itemBuilder: (context) {
+              return [
+                const PopupMenuItem(
+                  child: Text('New Group'),
+                ),
+                const PopupMenuItem(
+                  child: Text('New Broadcast'),
+                ),
+                const PopupMenuItem(
+                  child: Text('Linked Devices'),
+                ),
+                const PopupMenuItem(
+                  child: Text('Stored Messages'),
+                ),
+                const PopupMenuItem(
+                  child: Text('Archived Messages'),
+                ),
+                const PopupMenuItem(
+                  child: Text('Settings'),
+                ),
+              ];
+            },
           ),
-          position: PopupMenuPosition.under,
-          itemBuilder: (context) {
-            return [
-              const PopupMenuItem(
-                child: Text('New Group'),
-              ),
-              const PopupMenuItem(
-                child: Text('New Broadcast'),
-              ),
-              const PopupMenuItem(
-                child: Text('Linked Devices'),
-              ),
-              const PopupMenuItem(
-                child: Text('Stored Messages'),
-              ),
-              const PopupMenuItem(
-                child: Text('Archived Messages'),
-              ),
-              const PopupMenuItem(
-                child: Text('Settings'),
-              ),
-            ];
-          },
-        )
-      ],
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          border: Border.all(),
         ),
-        padding: EdgeInsets.fromLTRB(25, statusBarHeight, 20, 0),
+      ],
+      leadingWidth: 150,
+      leading: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
         child: Row(
           children: [
             const CircleAvatar(

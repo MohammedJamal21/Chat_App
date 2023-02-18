@@ -68,6 +68,26 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all(0),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                
+              },
+              child: const Text("Login"),
+            ),
+          ),
         ],
       ),
     );

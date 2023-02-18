@@ -178,7 +178,7 @@ class _SignupFormState extends State<SignupForm> {
                       },
                 child: const Text("Login"),
               ),
-            )
+            ),
           ],
         ),
       ),

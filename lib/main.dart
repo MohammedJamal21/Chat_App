@@ -45,7 +45,7 @@ class _ChatAppState extends State<ChatApp> {
                       return const SplashScreen();
                     }
                     if (!snapshot.hasData) {
-                      return const LoginScreen();
+                      return const SignupScreen();
                     }
                     return const SettingsScreen();
                   },

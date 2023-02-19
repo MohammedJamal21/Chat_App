@@ -42,33 +42,38 @@ class _SignupScreenState extends State<SignupScreen> {
       });
 
       Navigator.of(context).pushReplacementNamed('/settings');
-      
     } on PlatformException catch (error) {
       String errorMessage = 'An error occurred, please check your credentials.';
 
       if (error.message != null) {
         errorMessage = error.message!;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+        setState(() {
+          isLoading = false;
+        });
+      }
+      
+      
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(error.toString()),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.toString()),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
 
-      setState(() {
+        setState(() {
         isLoading = false;
-      });
+        });
+      }
     }
   }
 

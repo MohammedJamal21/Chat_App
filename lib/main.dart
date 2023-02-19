@@ -39,7 +39,7 @@ class _ChatAppState extends State<ChatApp> {
           home: (app.connectionState == ConnectionState.waiting)
                 ? const SplashScreen()
                 : StreamBuilder<User?>(
-                    stream: FirebaseAuth.instance.authStateChanges(),
+                  stream: FirebaseAuth.instance.authStateChanges(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const SplashScreen();

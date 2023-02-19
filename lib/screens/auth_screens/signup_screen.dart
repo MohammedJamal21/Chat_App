@@ -21,22 +21,27 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<void> _submitSignUpForm(
       String email, String password, String phoneNumber) async {
-    UserCredential userCredential;
+    UserCredential? userCredential;
 
     try {
       setState(() {
         isLoading = true;
       });
-      userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((UserCredential userCredential2) {
+        userCredential = userCredential2;
+      });
 
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(userCredential.user!.uid)
+          .doc(userCredential!.user!.uid)
           .set({
         'email': email,
         'phoneNumber': phoneNumber,
       });
+      
+      
     } on PlatformException catch (error) {
       String errorMessage = 'An error occurred, please check your credentials.';
 
@@ -59,7 +64,8 @@ class _SignupScreenState extends State<SignupScreen> {
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
-      print(error);
+      print(
+          'XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLLLLLLLLLLAAAAAAAAAAAAAAAAAAAATTTTTTTTTTTTT');
       setState(() {
         isLoading = false;
       });

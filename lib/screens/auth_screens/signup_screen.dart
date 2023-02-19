@@ -40,7 +40,8 @@ class _SignupScreenState extends State<SignupScreen> {
         'email': email,
         'phoneNumber': phoneNumber,
       });
-      
+
+      Navigator.of(context).pushReplacementNamed('/settings');
       
     } on PlatformException catch (error) {
       String errorMessage = 'An error occurred, please check your credentials.';
@@ -64,8 +65,7 @@ class _SignupScreenState extends State<SignupScreen> {
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );
-      print(
-          'XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLLLLLLLLLLAAAAAAAAAAAAAAAAAAAATTTTTTTTTTTTT');
+
       setState(() {
         isLoading = false;
       });

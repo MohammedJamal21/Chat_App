@@ -29,45 +29,45 @@ class _ChatAppState extends State<ChatApp> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _initializeApp,
-        builder: (context, app) {
-          return MaterialApp(
-            title: 'Chat App',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
+      future: _initializeApp,
+      builder: (context, app) {
+        return MaterialApp(
+          title: 'Chat App',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
           home: (app.connectionState == ConnectionState.waiting)
-                ? const SplashScreen()
-                : StreamBuilder<User?>(
-                  stream: FirebaseAuth.instance.authStateChanges(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const SplashScreen();
-                      }
-                      if (!snapshot.hasData) {
-                        return const LoginScreen();
-                      }
-                      return const SettingsScreen();
-                    },
-                  ),
-            routes: {
+              ? const SplashScreen()
+              : StreamBuilder<User?>(
+                  stream: FirebaseAuth.instance.userChanges(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SplashScreen();
+                    }
+                    if (!snapshot.hasData) {
+                      return const LoginScreen();
+                    }
+                    return const SettingsScreen();
+                  },
+                ),
+          routes: {
             SplashScreen.routeName: (context) {
               return const SplashScreen();
             },
-              HomeScreen.routeName: (context) {
-                return const HomeScreen();
-              },
-              SettingsScreen.routeName: (context) {
-                return const SettingsScreen();
-              },
-              LoginScreen.routeName: (context) {
-                return const LoginScreen();
-              },
-              SignupScreen.routeName: (context) {
-                return const SignupScreen();
-              }
+            HomeScreen.routeName: (context) {
+              return const HomeScreen();
             },
-          );
+            SettingsScreen.routeName: (context) {
+              return const SettingsScreen();
+            },
+            LoginScreen.routeName: (context) {
+              return const LoginScreen();
+            },
+            SignupScreen.routeName: (context) {
+              return const SignupScreen();
+            }
+          },
+        );
       },
     );
   }

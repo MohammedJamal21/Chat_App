@@ -22,12 +22,12 @@ class _SignupFormState extends State<SignupForm> {
 
   final _passwordController = TextEditingController();
 
-  void submitForm() {
+  Future<void> submitForm() async {
     final bool isValid = _form.currentState!.validate();
 
     if (isValid) {
       _form.currentState!.save();
-      widget.submit(email, password, phoneNumber);
+      await widget.submit(email, password, phoneNumber);
     }
   }
 
@@ -173,8 +173,8 @@ class _SignupFormState extends State<SignupForm> {
                     ),
                   ),
                 ),
-                      onPressed: () {
-                        submitForm();
+                      onPressed: () async {
+                        await submitForm();
                       },
                 child: const Text("Login"),
               ),

@@ -11,13 +11,10 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      
+    return AppBar(  
       toolbarHeight: 70,
       automaticallyImplyLeading: false,
-    
       actions: [
-       
         IconButton(
           onPressed: () {},
           icon: const Icon(

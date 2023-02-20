@@ -15,7 +15,7 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final auth = FirebaseAuth.instance;
+  
 
   bool isLoading = false;
 
@@ -27,11 +27,7 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() {
         isLoading = true;
       });
-      await auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((UserCredential userCredential2) {
-        userCredential = userCredential2;
-      });
+      await 
 
       await FirebaseFirestore.instance
           .collection('users')

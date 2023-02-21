@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,16 +26,7 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() {
         isLoading = true;
       });
-      await 
-
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userCredential!.user!.uid)
-          .set({
-        'email': email,
-        'phoneNumber': phoneNumber,
-      });
-
+   
       Navigator.of(context).pushReplacementNamed('/settings');
     } on PlatformException catch (error) {
       String errorMessage = 'An error occurred, please check your credentials.';

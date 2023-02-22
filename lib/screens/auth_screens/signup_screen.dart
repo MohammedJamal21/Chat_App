@@ -20,47 +20,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Future<void> _submitSignUpForm(
       String email, String password, String phoneNumber) async {
-    UserCredential? userCredential;
-
-    try {
+    
+    
       setState(() {
         isLoading = true;
       });
    
       Navigator.of(context).pushReplacementNamed('/settings');
-    } on PlatformException catch (error) {
-      String errorMessage = 'An error occurred, please check your credentials.';
-
-      if (error.message != null) {
-        errorMessage = error.message!;
-      }
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessage),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-        setState(() {
-          isLoading = false;
-        });
-      }
-      
-      
-    } catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(error.toString()),
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-
-        setState(() {
-        isLoading = false;
-        });
-      }
-    }
+    
+     
   }
 
   @override

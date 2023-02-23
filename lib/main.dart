@@ -11,6 +11,9 @@ import 'screens/splash_screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final Future<FirebaseApp> _initializeApp = Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ChatApp());
 }
 
@@ -22,14 +25,11 @@ class ChatApp extends StatefulWidget {
 }
 
 class _ChatAppState extends State<ChatApp> {
-  final Future<FirebaseApp> _initializeApp = Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initializeApp,
+      future: widget._initializeApp,
       builder: (context, app) {
         return MaterialApp(
           title: 'Chat App',

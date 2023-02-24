@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Auth extends ChangeNotifier {
+class User extends ChangeNotifier {
   String? _idToken; //Token
   String? _email;
   String? _userId; // Local ID

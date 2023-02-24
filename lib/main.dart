@@ -11,13 +11,13 @@ import 'screens/splash_screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final Future<FirebaseApp> _initializeApp = Firebase.initializeApp(
+  final Future<FirebaseApp> initializeApp = Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const ChatApp());
 }
 
-class ChatApp extends StatefulWidget {
+class ChatApp extends StatefulWidget {  
   const ChatApp({super.key});
 
   @override
@@ -28,46 +28,39 @@ class _ChatAppState extends State<ChatApp> {
   
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: widget._initializeApp,
-      builder: (context, app) {
-        return MaterialApp(
-          title: 'Chat App',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: (app.connectionState == ConnectionState.waiting)
-              ? const SplashScreen()
-              : StreamBuilder<User?>(
-                  stream: FirebaseAuth.instance.userChanges(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SplashScreen();
-                    }
-                    if (!snapshot.hasData) {
-                      return const SignupScreen();
-                    }
-                    return const SettingsScreen();
-                  },
-                ),
-          routes: {
-            SplashScreen.routeName: (context) {
-              return const SplashScreen();
-            },
-            HomeScreen.routeName: (context) {
-              return const HomeScreen();
-            },
-            SettingsScreen.routeName: (context) {
-              return const SettingsScreen();
-            },
-            LoginScreen.routeName: (context) {
-              return const LoginScreen();
-            },
-            SignupScreen.routeName: (context) {
-              return const SignupScreen();
-            }
-          },
-        );
+    return MaterialApp(
+      title: 'Chat App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.userChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
+          }
+          if (!snapshot.hasData) {
+            return const SignupScreen();
+          }
+          return const SettingsScreen();
+        },
+      ),
+      routes: {
+        SplashScreen.routeName: (context) {
+          return const SplashScreen();
+        },
+        HomeScreen.routeName: (context) {
+          return const HomeScreen();
+        },
+        SettingsScreen.routeName: (context) {
+          return const SettingsScreen();
+        },
+        LoginScreen.routeName: (context) {
+          return const LoginScreen();
+        },
+        SignupScreen.routeName: (context) {
+          return const SignupScreen();
+        }
       },
     );
   }

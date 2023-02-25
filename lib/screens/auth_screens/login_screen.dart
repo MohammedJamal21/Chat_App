@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../../services/database_service.dart';
 import '../../widgets/auth/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,6 +25,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final auth = FirebaseAuth.instance;
+  final DatabaseService databaseService = DatabaseService();
+  late ChatAppUser chatAppUser;
 
   bool isLoading = false;
 
@@ -37,10 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        Provider.of<ChatAppUserProvider>(context).setUser(
-          ChatAppUser(userId: userId, email: email, phoneNumber: phoneNumber)
-        );
+          .then((value) async {
+        chatAppUser =
+            await databaseService.findUserInDatabaseByUid(value.user!.uid);
+        Provider.of<ChatAppUserProvider>(context, listen: false)
+            .setUser(chatAppUser);
       });
     } on PlatformException catch (error) {
       String errorMessage = 'An error occurred, please check your credentials.';

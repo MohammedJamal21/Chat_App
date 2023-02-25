@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:chat_app/models/chatapp_user.dart';
-import 'package:chat_app/providers/chatapp_user_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/chatapp_user_provider.dart';
+import '../../services/auth_service.dart';
 import '../../services/database_service.dart';
 import '../../widgets/auth/login_form.dart';
 
@@ -24,11 +24,19 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final auth = FirebaseAuth.instance;
+  final AuthService authService = AuthService();
   final DatabaseService databaseService = DatabaseService();
-  late ChatAppUser chatAppUser;
+  ChatAppUser chatAppUser = ChatAppUser(userId: '', email: '', phoneNumber: '');
+  ChatAppUserProvider? _chatAppUserProvider;
 
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _chatAppUserProvider =
+        Provider.of<ChatAppUserProvider>(context, listen: false);
+  }
 
   Future<void> _submitLogInForm(
     String email,
@@ -38,13 +46,13 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = true;
       });
-      await auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
+      await authService.login(email, password).then((value) async {
         chatAppUser =
-            await databaseService.findUserInDatabaseByUid(value.user!.uid);
-        Provider.of<ChatAppUserProvider>(context, listen: false)
-            .setUser(chatAppUser);
+            await databaseService.findUserInDatabaseByUid(value!.user!.uid);
+        //Provider.of<ChatAppUserProvider>(context, listen: false)
+        //.setUser(chatAppUser);
+        _chatAppUserProvider!.setUser(chatAppUser);
+        print('uwhfeuhfuewhfuewhufhfwherrrerererererereerrerreruh');
       });
     } on PlatformException catch (error) {
       String errorMessage = 'An error occurred, please check your credentials.';
@@ -62,16 +70,19 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = false;
       });
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(error.toString()),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
+      print('eifjefijifjiejfjiefjiejfijeiEROOOOOOORRRR');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.toString()),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
 
-      setState(() {
-        isLoading = false;
-      });
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 

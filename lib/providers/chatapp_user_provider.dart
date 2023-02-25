@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../models/chatapp_user.dart';
@@ -9,10 +8,16 @@ class ChatAppUserProvider extends ChangeNotifier {
   //String? _userId; // Local ID
   //DateTime? _expiresIn;
   //Timer? _authTimer;
-  ChatAppUser? chatAppUser;
+  ChatAppUser _chatAppUser =
+      ChatAppUser(userId: '', email: '', phoneNumber: '');
 
   void setUser(ChatAppUser user) {
-    chatAppUser = user;
+    _chatAppUser = user;
+    print('from Provider!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ewffwfffwwffwff!!');
     notifyListeners();
+  }
+
+  ChatAppUser get getUser {
+    return _chatAppUser;
   }
 }

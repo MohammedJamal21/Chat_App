@@ -32,6 +32,7 @@ class DatabaseService {
     final email = user['email'];
     final phoneNumber = user['phoneNumber'];
 
+    print(userId + email + phoneNumber);
     return ChatAppUser(userId: userId, email: email, phoneNumber: phoneNumber);
   }
 }

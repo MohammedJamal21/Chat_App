@@ -1,5 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/chatapp_user.dart';
+import '../../providers/chatapp_user_provider.dart';
+import '../../services/database_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String routeName = '/settings';
@@ -11,6 +16,19 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    ChatAppUser chatAppUser =
+        await DatabaseService().findUserInDatabaseByUid(userId);
+    Provider.of<ChatAppUserProvider>(
+      context,
+      listen: false,
+    ).setUser(chatAppUser);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +40,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: Column(
         children: [
+          Consumer<ChatAppUserProvider>(
+            builder: (ctx, user, _) {
+              String email = user.getUser.email;
+
+              return Text(
+                email,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            },
+          ),
           ListTile(
             title: const Text('Edit Account'),
             tileColor: Colors.blue,

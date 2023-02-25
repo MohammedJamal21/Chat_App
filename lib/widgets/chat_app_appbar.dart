@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:chat_app/providers/chatapp_user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
   double statusBarHeight;
@@ -11,7 +13,7 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(  
+    return AppBar(
       toolbarHeight: 70,
       automaticallyImplyLeading: false,
       actions: [
@@ -46,15 +48,18 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
                 const PopupMenuItem(
                   child: Text('Archived Messages'),
                 ),
-                const PopupMenuItem(
-                  child: Text('Settings'),
+                PopupMenuItem(
+                  child: const Text('Settings'),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/settings');
+                  },
                 ),
               ];
             },
           ),
         ),
       ],
-      leadingWidth: 150,
+      leadingWidth: 250,
       leading: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
         child: Row(
@@ -69,20 +74,26 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   'Hey!',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  'Ahsan',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Consumer<ChatAppUserProvider>(
+                  builder: (ctx, user, _) {
+                    String email = user.getUser.email;
+
+                    return Text(
+                      email,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

@@ -1,7 +1,7 @@
 import 'package:chat_app/providers/chatapp_user_provider.dart';
 import 'package:chat_app/screens/auth_screens/handler_screen.dart';
-import 'package:chat_app/screens/user_screens.dart/home_screen.dart';
-import 'package:chat_app/screens/user_screens.dart/settings_screen.dart';
+import 'package:chat_app/screens/user_screens/home_screen.dart';
+import 'package:chat_app/screens/user_screens/settings_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

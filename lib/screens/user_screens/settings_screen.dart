@@ -17,7 +17,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
 
-  @override
+  /*@override
   void didChangeDependencies() async {
     super.didChangeDependencies();
     String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -27,7 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context,
       listen: false,
     ).setUser(chatAppUser);
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

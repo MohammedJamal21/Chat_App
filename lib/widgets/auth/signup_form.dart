@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SignupForm extends StatefulWidget {
-  final bool isLoading;
-  final Function submit;
+import '../../services/auth_service.dart';
+import '../../services/database_service.dart';
 
+class SignupForm extends StatefulWidget {
   const SignupForm({
     super.key,
-    required this.isLoading,
-    required this.submit,
   });
 
   @override
@@ -19,15 +17,33 @@ class _SignupFormState extends State<SignupForm> {
   String email = '';
   String password = '';
   String phoneNumber = '';
+  bool isLoading = false;
+  final authService = AuthService();
+  final databaseService = DatabaseService();
 
   final _passwordController = TextEditingController();
 
+  @override
+  void dispose() {
+    super.dispose();
+
+    _passwordController.dispose();
+  }
+
   Future<void> submitForm() async {
+    setState(() {
+      isLoading = true;
+    });
     final bool isValid = _form.currentState!.validate();
 
     if (isValid) {
       _form.currentState!.save();
-      await widget.submit(email, password, phoneNumber);
+      await authService.signUp(email, password).then(
+        (userCredential) async {
+          await databaseService.addNewUserDataToDatabase(
+              userCredential!.user!.uid, email, phoneNumber);
+        },
+      );
     }
   }
 
@@ -83,9 +99,7 @@ class _SignupFormState extends State<SignupForm> {
                     return 'Enter a valid phone number';
                   }
                   return null;
-                  
                 },
-
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(
                   labelText: "Number*",
@@ -156,29 +170,28 @@ class _SignupFormState extends State<SignupForm> {
                 ),
               ),
             ),
-            widget.isLoading
+            isLoading == true
                 ? const CircularProgressIndicator()
-                :
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(0),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        10,
+                : SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(0),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              10,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
                       onPressed: () async {
                         await submitForm();
                       },
-                child: const Text("Login"),
-              ),
-            ),
+                      child: const Text("Login"),
+                    ),
+                  ),
           ],
         ),
       ),

@@ -1,8 +1,6 @@
-import 'package:chat_app/screens/auth_screens/login_screen.dart';
-import 'package:chat_app/screens/auth_screens/signup_screen.dart';
+import 'package:chat_app/screens/auth_screens/handler_screen.dart';
 import 'package:chat_app/screens/user_screens.dart/home_screen.dart';
 import 'package:chat_app/screens/user_screens.dart/settings_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -11,13 +9,13 @@ import 'screens/splash_screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final Future<FirebaseApp> initializeApp = Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const ChatApp());
 }
 
-class ChatApp extends StatefulWidget {  
+class ChatApp extends StatefulWidget {
   const ChatApp({super.key});
 
   @override
@@ -25,7 +23,6 @@ class ChatApp extends StatefulWidget {
 }
 
 class _ChatAppState extends State<ChatApp> {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,18 +30,7 @@ class _ChatAppState extends State<ChatApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.userChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          }
-          if (!snapshot.hasData) {
-            return const SignupScreen();
-          }
-          return const SettingsScreen();
-        },
-      ),
+      home: const HandlerScreen(),
       routes: {
         SplashScreen.routeName: (context) {
           return const SplashScreen();
@@ -55,13 +41,15 @@ class _ChatAppState extends State<ChatApp> {
         SettingsScreen.routeName: (context) {
           return const SettingsScreen();
         },
-        LoginScreen.routeName: (context) {
+        /*LoginScreen.routeName: (context) {
           return const LoginScreen();
         },
         SignupScreen.routeName: (context) {
           return const SignupScreen();
-        }
+        },*/
       },
     );
   }
 }
+
+

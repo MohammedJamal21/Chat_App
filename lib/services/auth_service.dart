@@ -1,32 +1,14 @@
-import 'package:chat_app/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 class AuthService {
-  /*String? _idToken; //Token
-  String? _email;
-  String? _userId; // Local ID
-  DateTime? _expiresIn;
-  Timer? _authTimer;
-
-  UserCredential? userCredential;
-  */
   final firebaseAuth = FirebaseAuth.instance;
 
-  Future signUp(
-    String email,
-    String password,
-  ) async {
+  Future<UserCredential?> signUp(String email, String password) async {
     try {
       UserCredential userCredential = await firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      if (userCredential != null) {
-        String userId = userCredential.user!.uid;
-
-        return userId;
-        //DatabaseService().addUserDataToDatabase(userId, email, phoneNumber);
-      }
+      return userCredential;
 
       /*IdTokenResult idTokenResult =
           await userCredential!.user!.getIdTokenResult();
@@ -78,5 +60,20 @@ class AuthService {
         });
       }*/
     }
+    return null;
+  }
+
+  Future<void> signOut() async {
+    try {
+      await firebaseAuth.signOut();
+    } on FirebaseAuthException {
+      //--
+    } catch (error) {
+      //--
+    }
+  }
+
+  Stream<User?> isSignedIn() {
+    return firebaseAuth.authStateChanges();
   }
 }

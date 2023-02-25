@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,12 @@ import '../../widgets/auth/login_form.dart';
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
 
-  const LoginScreen({Key? key}) : super(key: key);
+  final Function changeScreenToSignUp;
+
+  const LoginScreen({
+    Key? key,
+    required this.changeScreenToSignUp,
+  }) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -82,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Text('Don\'t have an account?'),
                   TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacementNamed('/signup');
+                      widget.changeScreenToSignUp();
                     },
                     child: const Text('Sign Up'),
                   ),

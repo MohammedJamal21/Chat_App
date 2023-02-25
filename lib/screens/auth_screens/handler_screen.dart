@@ -1,11 +1,11 @@
 import 'package:chat_app/screens/auth_screens/login_screen.dart';
 import 'package:chat_app/screens/auth_screens/signup_screen.dart';
+import 'package:chat_app/screens/user_screens.dart/home_screen.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../splash_screens/splash_screen.dart';
-import '../user_screens.dart/settings_screen.dart';
 
 class HandlerScreen extends StatelessWidget {
   const HandlerScreen({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class HandlerScreen extends StatelessWidget {
         if (!snapshot.hasData) {
           return const AuthHandler();
         }
-        return const SettingsScreen();
+        return const HomeScreen();
       },
     );
   }

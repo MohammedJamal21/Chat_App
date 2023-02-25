@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:chat_app/models/chatapp_user.dart';
+import 'package:chat_app/providers/chatapp_user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/auth/login_form.dart';
 
@@ -32,7 +35,13 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = true;
       });
-      await auth.signInWithEmailAndPassword(email: email, password: password);
+      await auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        Provider.of<ChatAppUserProvider>(context).setUser(
+          ChatAppUser(userId: userId, email: email, phoneNumber: phoneNumber)
+        );
+      });
     } on PlatformException catch (error) {
       String errorMessage = 'An error occurred, please check your credentials.';
 

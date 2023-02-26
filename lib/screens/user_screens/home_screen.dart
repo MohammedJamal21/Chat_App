@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.blueGrey,
               child: ListTile(
                 onTap: () {
-                  Navigator.of(context).pushNamed();
+                  Navigator.of(context).pushNamed('/chat');
                 },
                 leading: const CircleAvatar(),
                 title: const Text('Hamudi@gmail.com'),

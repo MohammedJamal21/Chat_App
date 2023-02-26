@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'screens/splash_screens/splash_screen.dart';
+import 'screens/user_screens/chat_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +55,9 @@ class _ChatAppState extends State<ChatApp> {
           HandlerScreen.routeName: (context) {
             return const HandlerScreen();
           },
+          ChatScreen.routeName: (context) {
+            return const ChatScreen();
+          },
           /*LoginScreen.routeName: (context) {
             return const LoginScreen();
           },
@@ -65,5 +69,3 @@ class _ChatAppState extends State<ChatApp> {
     );
   }
 }
-
-

@@ -3,14 +3,25 @@ import 'package:chat_app/providers/chatapp_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
+class ChatAppAppBar extends StatefulWidget implements PreferredSizeWidget {
   double statusBarHeight;
+  NavigatorState parentNavigator;
 
   ChatAppAppBar({
     Key? key,
     required this.statusBarHeight,
+    required this.parentNavigator,
   }) : super(key: key);
 
+  @override
+  State<ChatAppAppBar> createState() => _ChatAppAppBarState();
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(70);
+}
+
+class _ChatAppAppBarState extends State<ChatAppAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -26,6 +37,11 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
           child: PopupMenuButton(
+            onSelected: (value) {
+              if (value == 'settings') {
+                widget.parentNavigator.pushNamed('/settings');
+              }
+            },
             padding: EdgeInsets.zero,
             icon: const Icon(
               Icons.menu,
@@ -48,11 +64,9 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
                 const PopupMenuItem(
                   child: Text('Archived Messages'),
                 ),
-                PopupMenuItem(
-                  child: const Text('Settings'),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/settings');
-                  },
+                const PopupMenuItem(
+                  child: Text('Settings'),
+                  value: 'settings',
                 ),
               ];
             },
@@ -102,8 +116,20 @@ class ChatAppAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
+}
+
+class TestScreen extends StatelessWidget {
+  const TestScreen({super.key});
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(70);
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Test Screen'),
+      ),
+      body: const Center(
+        child: Text('This is a test screen.'),
+      ),
+    );
+  }
 }

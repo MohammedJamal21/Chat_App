@@ -51,6 +51,9 @@ class _ChatAppState extends State<ChatApp> {
           SettingsScreen.routeName: (context) {
             return const SettingsScreen();
           },
+          HandlerScreen.routeName: (context) {
+            return const HandlerScreen();
+          },
           /*LoginScreen.routeName: (context) {
             return const LoginScreen();
           },
@@ -62,3 +65,5 @@ class _ChatAppState extends State<ChatApp> {
     );
   }
 }
+
+

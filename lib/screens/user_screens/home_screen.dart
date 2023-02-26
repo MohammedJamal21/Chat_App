@@ -28,19 +28,25 @@ class _HomeScreenState extends State<HomeScreen> {
       listen: false,
     ).setUser(chatAppUser);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double statusBarHeight = mediaQueryData.padding.top;
-    
+    NavigatorState navigatorState = Navigator.of(context);
+
     return Scaffold(
       appBar: ChatAppAppBar(
+        parentNavigator: navigatorState,
         statusBarHeight: statusBarHeight,
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Center(
-          child: Text('Hello!'),
+          child: TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/settings');
+              },
+              child: const Text('fef')),
         ),
       ),
     );

@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/chatapp_user.dart';
 import '../../providers/chatapp_user_provider.dart';
-import '../../services/database_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String routeName = '/settings';
@@ -16,7 +14,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-
   /*@override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -94,6 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onPressed: () async {
                 await FirebaseAuth.instance.currentUser!.reload();
                 await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pop();
               },
               child: const Text('Log Out'))
         ],

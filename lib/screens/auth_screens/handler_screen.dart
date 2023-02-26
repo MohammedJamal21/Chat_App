@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import '../splash_screens/splash_screen.dart';
 
 class HandlerScreen extends StatelessWidget {
+  static const routeName = '/handler';
+
   const HandlerScreen({Key? key}) : super(key: key);
 
   @override

@@ -41,12 +41,26 @@ class _HomeScreenState extends State<HomeScreen> {
         statusBarHeight: statusBarHeight,
       ),
       body: SafeArea(
-        child: Center(
-          child: TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed('/settings');
-              },
-              child: const Text('fef')),
+        child: ListView(
+          children: [
+            Container(
+              color: Colors.blueGrey,
+              child: ListTile(
+                onTap: () {
+                  Navigator.of(context).pushNamed();
+                },
+                leading: const CircleAvatar(),
+                title: const Text('Hamudi@gmail.com'),
+                subtitle: const Text('Last Message of Convo'),
+                trailing: Column(
+                  children: const [
+                    Text('Last Message Time'),
+                    Text('Last Messaged that i have not see'),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

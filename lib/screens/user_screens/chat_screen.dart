@@ -29,22 +29,23 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: Container(
                 color: Colors.blue,
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: null,
-                  builder: (context, snapshot) {
-                    return ListView(
-                      children: const [
-                        //-------------------------------------
-                        UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
-                        UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
-                        UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
-                        UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
-                        UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
-                        UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
-                        //----------------------
-                      ],
-                    );
-                  }
-                ),
+                    stream: DatabaseService().messageStream(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            return UserMessageWidget(
+                                message: snapshot.data!.docs[index]['message'],
+                                time: snapshot.data!.docs[index]['timestamp']
+                                    .toString());
+                          },
+                        );
+                      }
+                      
+                    }),
               )),
               //----------------------------------
               Container(

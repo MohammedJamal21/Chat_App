@@ -42,4 +42,8 @@ class DatabaseService {
       'timestamp': timestamp,
     });
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> messageStream() {
+    return firebaseFirestore.collection('messages').snapshots();
+  }
 }

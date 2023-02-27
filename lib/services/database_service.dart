@@ -35,4 +35,11 @@ class DatabaseService {
     print(userId + email + phoneNumber);
     return ChatAppUser(userId: userId, email: email, phoneNumber: phoneNumber);
   }
+
+  Future<void> sendMessage(String message, DateTime timestamp) async {
+    await firebaseFirestore.collection('messages').add({
+      'message': message,
+      'timestamp': timestamp,
+    });
+  }
 }

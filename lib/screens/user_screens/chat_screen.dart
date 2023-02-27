@@ -22,7 +22,12 @@ class ChatScreen extends StatelessWidget {
                 child: ListView(
                   children: const [
                     //-------------------------------------
-                    UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi')
+                    UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
+                    UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
+                    UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
+                    UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
+                    UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
+                    UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi'),
                     //----------------------
                   ],
                 ),

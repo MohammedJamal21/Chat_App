@@ -1,3 +1,4 @@
+import 'package:chat_app/widgets/chat_screen_widgets/user_message_widget.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -18,7 +19,15 @@ class ChatScreen extends StatelessWidget {
               Expanded(
                   child: Container(
                 color: Colors.blue,
+                child: ListView(
+                  children: const [
+                    //-------------------------------------
+                    UserMessageWidget(message: 'ifjeijf', time: 'efifeijfi')
+                    //----------------------
+                  ],
+                ),
               )),
+              //----------------------------------
               Container(
                 width: MediaQuery.of(context).size.width - 20,
                 color: Colors.yellow,

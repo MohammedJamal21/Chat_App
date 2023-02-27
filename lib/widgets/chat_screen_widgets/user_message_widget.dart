@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class UserMessageWidget extends StatelessWidget {
-  final String message;
-  final String time;
+  final String messageText;
+  final DateTime messageTime;
 
-  const UserMessageWidget({Key? key, required this.message, required this.time})
-      : super(key: key);
+  UserMessageWidget(
+      {super.key, required String message, required Timestamp time})
+      : messageText = message,
+        messageTime = time.toDate().toLocal();
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +32,12 @@ class UserMessageWidget extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
 
                 //width: min(a, b),
-                child: Text(message),
+                child: Text(messageText),
               ),
               Container(
                 margin: const EdgeInsets.fromLTRB(20, 5, 0, 0),
                 alignment: Alignment.topLeft,
-                child: Text(time),
+                child: Text('${messageTime.hour}:${messageTime.minute}'),
               )
             ],
           ),

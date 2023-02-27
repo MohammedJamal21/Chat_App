@@ -44,6 +44,13 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> messageStream() {
-    return firebaseFirestore.collection('messages').snapshots();
+    final collectionReference = firebaseFirestore.collection('messages');
+
+    final orderedQuery =
+        collectionReference.orderBy('timestamp', descending: true);
+
+    final orderedStream = orderedQuery.snapshots();
+
+    return orderedStream;
   }
 }

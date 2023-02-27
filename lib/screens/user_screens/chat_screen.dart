@@ -35,12 +35,14 @@ class _ChatScreenState extends State<ChatScreen> {
                         return const CircularProgressIndicator();
                       } else {
                         return ListView.builder(
+                          
+                          reverse: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             return UserMessageWidget(
                                 message: snapshot.data!.docs[index]['message'],
                                 time: snapshot.data!.docs[index]['timestamp']
-                                    .toString());
+                                  );
                           },
                         );
                       }

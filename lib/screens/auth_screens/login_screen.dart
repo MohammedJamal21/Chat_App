@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../providers/chatapp_user_provider.dart';
 import '../../services/auth_service.dart';
 import '../../services/database_service.dart';
-import '../../widgets/auth/login_form.dart';
+import '../../widgets/auth_forms/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';

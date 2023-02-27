@@ -15,21 +15,30 @@ class ChatScreen extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
+              Expanded(
+                  child: Container(
+                color: Colors.blue,
+              )),
               Container(
                 width: MediaQuery.of(context).size.width - 20,
                 color: Colors.yellow,
                 child: TextField(
                   decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(20),
+                    contentPadding: const EdgeInsets.all(20),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide.none),
                       filled: true,
-                      fillColor: Colors.blue,
+                    fillColor: Colors.lightBlue.shade100,
                       hintText: ' Message',
                       suffixIcon: IconButton(
                           onPressed: () {},
-                          icon: const Icon(Icons.send_rounded))),
+                      icon: const Icon(
+                        Icons.send_rounded,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],

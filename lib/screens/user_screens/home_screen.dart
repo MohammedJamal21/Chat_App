@@ -1,10 +1,6 @@
 import 'package:chat_app/widgets/appbar/chat_app_appbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../models/chatapp_user.dart';
-import '../../providers/chatapp_user_provider.dart';
 import '../../services/database_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final databaseService = DatabaseService();
 
-  @override
+  /*@override
   void didChangeDependencies() async {
     super.didChangeDependencies();
     String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -29,14 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
       context,
       listen: false,
     ).setUser(chatAppUser);
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double statusBarHeight = mediaQueryData.padding.top;
     NavigatorState navigatorState = Navigator.of(context);
-    final userId = Provider.of<ChatAppUserProvider>(context).getUser.userId;
+    //final userId = Provider.of<ChatAppUserProvider>(context).getUser.userId;
 
     return Scaffold(
       appBar: ChatAppAppBar(
@@ -45,15 +41,17 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: StreamBuilder<List<String>>(
-            stream: databaseService.showUsersToChat(userId),
+            stream: null,
             builder: (context, snapshot) {
-              return ListView.builder(
+              return const Text('efefe');
+
+              /*return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   
                   return const Text('Haha'); //UserToChat();
                 },
-              );
+              );*/
             }),
       ),
     );

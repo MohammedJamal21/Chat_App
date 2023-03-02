@@ -43,7 +43,10 @@ class DatabaseService {
     });
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> messageStream() {
+  /*Stream<QuerySnapshot<Map<String, dynamic>>> messageStream() {
+    
+    Without a specific user preference to know which other users to message
+
     final collectionReference = firebaseFirestore.collection('messages');
 
     final orderedQuery =
@@ -52,5 +55,15 @@ class DatabaseService {
     final orderedStream = orderedQuery.snapshots();
 
     return orderedStream;
+  }*/
+
+  Stream<List<String>> showUsersToChat(String userId) {
+    
+    DocumentReference<Map<String, dynamic>> documentReference =
+        firebaseFirestore.collection('users').doc(userId);
+
+    return documentReference
+        .snapshots()
+        .map((event) => event.get('userIdOfOtherUsers') as List<String>); 
   }
 }

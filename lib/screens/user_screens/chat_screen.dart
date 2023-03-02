@@ -29,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: Container(
                 color: Colors.blue,
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    stream: DatabaseService().messageStream(),
+                    stream: null,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return const CircularProgressIndicator();

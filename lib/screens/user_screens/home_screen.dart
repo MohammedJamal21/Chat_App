@@ -17,6 +17,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final databaseService = DatabaseService();
+
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -34,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double statusBarHeight = mediaQueryData.padding.top;
     NavigatorState navigatorState = Navigator.of(context);
+    final userId = Provider.of<ChatAppUserProvider>(context).getUser.userId;
 
     return Scaffold(
       appBar: ChatAppAppBar(
@@ -41,25 +44,42 @@ class _HomeScreenState extends State<HomeScreen> {
         statusBarHeight: statusBarHeight,
       ),
       body: SafeArea(
-        child: ListView(
-          children: [
-            Container(
-              color: Colors.blueGrey,
-              child: ListTile(
-                onTap: () {
-                  Navigator.of(context).pushNamed('/chat');
+        child: StreamBuilder<List<String>>(
+            stream: databaseService.showUsersToChat(userId),
+            builder: (context, snapshot) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  
+                  return const Text('Haha'); //UserToChat();
                 },
-                leading: const CircleAvatar(),
-                title: const Text('Hamudi@gmail.com'),
-                subtitle: const Text('Last Message of Convo'),
-                trailing: Column(
-                  children: const [
-                    Text('Last Message Time'),
-                    Text('Last Messaged that i have not see'),
-                  ],
-                ),
-              ),
-            ),
+              );
+            }),
+      ),
+    );
+  }
+}
+
+class UserToChat extends StatelessWidget {
+  const UserToChat({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blueGrey,
+      child: ListTile(
+        onTap: () {
+          Navigator.of(context).pushNamed('/chat');
+        },
+        leading: const CircleAvatar(),
+        title: const Text('Hamudi@gmail.com'),
+        subtitle: const Text('Last Message of Convo'),
+        trailing: Column(
+          children: const [
+            Text('Last Message Time'),
+            Text('Last Messaged that i have not see'),
           ],
         ),
       ),

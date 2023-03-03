@@ -49,9 +49,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   .getUser
                   .userId),
           builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
             return FutureBuilder(
                 future: snapshot.data!.reference.get(),
                 builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+     
                   List<dynamic> userIdOfOtherUsers =
                       snapshot.data!.get('userIDOfOtherUsers');
 
@@ -61,13 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Text(userIdOfOtherUsers[index].toString());
                       });
                 });
-            /*return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  
-                  return const Text('Haha'); //UserToChat();
-                },
-            );*/
           },
         ),
       ),

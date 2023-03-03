@@ -65,14 +65,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   }
-     
+
                   List<dynamic> userIdOfOtherUsers =
                       snapshot.data!.get('userIDOfOtherUsers');
+                  List<dynamic> messageIdOfOtherUsers =
+                      snapshot.data!.get('messageIdOfOtherUsers');
 
                   return ListView.builder(
                       itemCount: userIdOfOtherUsers.length,
                       itemBuilder: (context, index) {
-                        return Text(userIdOfOtherUsers[index].toString());
+                        return Container(
+                          margin: const EdgeInsets.all(10),
+                          color: Colors.red,
+                          child: Text(
+                              "${userIdOfOtherUsers[index]} ${messageIdOfOtherUsers[index]}"),
+                        );
                       });
                 });
           },

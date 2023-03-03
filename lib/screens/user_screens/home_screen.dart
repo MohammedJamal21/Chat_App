@@ -1,5 +1,8 @@
+import 'package:chat_app/providers/chatapp_user_provider.dart';
 import 'package:chat_app/widgets/appbar/chat_app_appbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../services/database_service.dart';
 
@@ -40,19 +43,33 @@ class _HomeScreenState extends State<HomeScreen> {
         statusBarHeight: statusBarHeight,
       ),
       body: SafeArea(
-        child: StreamBuilder<List<String>>(
-            stream: null,
-            builder: (context, snapshot) {
-              return const Text('efefe');
+        child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          stream: databaseService.showUsersToChat(
+              Provider.of<ChatAppUserProvider>(context, listen: false)
+                  .getUser
+                  .userId),
+          builder: (context, snapshot) {
+            return FutureBuilder(
+                future: snapshot.data!.reference.get(),
+                builder: (context, snapshot) {
+                  List<dynamic> userIdOfOtherUsers =
+                      snapshot.data!.get('userIDOfOtherUsers');
 
-              /*return ListView.builder(
+                  return ListView.builder(
+                      itemCount: userIdOfOtherUsers.length,
+                      itemBuilder: (context, index) {
+                        return Text(userIdOfOtherUsers[index].toString());
+                      });
+                });
+            /*return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   
                   return const Text('Haha'); //UserToChat();
                 },
-              );*/
-            }),
+            );*/
+          },
+        ),
       ),
     );
   }

@@ -57,13 +57,12 @@ class DatabaseService {
     return orderedStream;
   }*/
 
-  Stream<List<String>> showUsersToChat(String userId) {
-    
+  Stream<DocumentSnapshot<Map<String, dynamic>>> showUsersToChat(
+      String userId) {
     DocumentReference<Map<String, dynamic>> documentReference =
         firebaseFirestore.collection('users').doc(userId);
 
-    return documentReference
-        .snapshots()
-        .map((event) => event.get('userIdOfOtherUsers') as List<String>); 
+    return documentReference.snapshots();
+    // .map((event) => event.get('userIdOfOtherUsers') as List<String>);
   }
 }

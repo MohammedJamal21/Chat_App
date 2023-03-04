@@ -39,12 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //final userId = Provider.of<ChatAppUserProvider>(context).getUser.userId;
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(
-          Icons.message_outlined,
-        ),
-        onPressed: () {},
-      ),
+      floatingActionButton: const AddNewUserToChatButton(),
       appBar: ChatAppAppBar(
         parentNavigator: navigatorState,
         statusBarHeight: statusBarHeight,
@@ -98,6 +93,80 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
+    );
+  }
+}
+
+class AddNewUserToChatButton extends StatelessWidget {
+  const AddNewUserToChatButton({
+    super.key,
+  });
+
+  void searchForUserToAdd() {
+    FirebaseFirestore.instance.collection('users');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      child: const Icon(
+        Icons.message_outlined,
+      ),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              actionsAlignment: MainAxisAlignment.center,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Back'),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          5,
+                        ),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: const Text("Add"),
+                ),
+              ],
+              title: const Text("Enter the email address"),
+              content: TextFormField(
+                /*onSaved: (newValue) {
+                  email = newValue!;
+                },
+                validator: (value) {
+                  if (!value!.contains('@') || value.isEmpty) {
+                    return 'Email address is not valid';
+                  }
+                  return null;
+                },*/
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: "Email",
+                  floatingLabelAlignment: FloatingLabelAlignment.start,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 30,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

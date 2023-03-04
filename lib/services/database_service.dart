@@ -49,7 +49,6 @@ class DatabaseService {
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> chatStream(String chatId) {
-    
     final collectionReference = firebaseFirestore
         .collection('messages')
         .doc(chatId)
@@ -71,4 +70,13 @@ class DatabaseService {
     return documentReference.snapshots();
     // .map((event) => event.get('userIdOfOtherUsers') as List<String>);
   }
+
+  Future<bool> checkIfUserExists(String email) async {
+    final collectionReference = firebaseFirestore.collection('users');
+    final querySnapshot =
+        await collectionReference.where('email', isEqualTo: email).get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  
 }

@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return UserToChat(
                       userId: userIdOfOtherUsers[index],
                       chatId: messageIdOfOtherUsers[index],
+                      navigatorState: Navigator.of(context),
                     );
                   },
                 );

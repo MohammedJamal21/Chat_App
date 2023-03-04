@@ -7,11 +7,13 @@ import '../../models/chatapp_user.dart';
 class UserToChat extends StatefulWidget {
   final String userId;
   final String chatId;
+  final NavigatorState navigatorState;
 
   const UserToChat({
     Key? key,
     required this.userId,
     required this.chatId,
+    required this.navigatorState,
   }) : super(key: key);
 
   @override
@@ -30,43 +32,51 @@ class _UserToChatState extends State<UserToChat> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.blue.shade100,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 18,
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Column(
-            children: [
-              FutureBuilder(
-                  future: showUsername(widget.userId),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text('');
-                    }
-                    if (!snapshot.hasData) {
-                      return const Text('');
-                    }
-                    return Text(
-                      snapshot.data!,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    );
-                  }),
-              const Text(''),
-            ],
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        widget.navigatorState.pushNamed('/chat', arguments: {
+          'userId': widget.userId,
+          'chatId': widget.chatId,
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.blue.shade100,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            const CircleAvatar(
+              radius: 18,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Column(
+              children: [
+                FutureBuilder(
+                    future: showUsername(widget.userId),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text('');
+                      }
+                      if (!snapshot.hasData) {
+                        return const Text('');
+                      }
+                      return Text(
+                        snapshot.data!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    }),
+                const Text(''),
+              ],
+            ),
+          ],
+        ),
       ),
     );
     /*Container(

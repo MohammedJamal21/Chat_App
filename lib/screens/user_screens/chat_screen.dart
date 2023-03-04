@@ -17,6 +17,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = ModalRoute.of(context)!.settings.arguments;
+
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -26,29 +28,28 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Column(
             children: [
               Expanded(
-                  child: Container(
-                color: Colors.blue,
-                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                child: Container(
+                  color: Colors.blue,
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     stream: null,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return const CircularProgressIndicator();
                       } else {
                         return ListView.builder(
-                          
                           reverse: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             return UserMessageWidget(
                                 message: snapshot.data!.docs[index]['message'],
-                                time: snapshot.data!.docs[index]['timestamp']
-                                  );
+                                time: snapshot.data!.docs[index]['timestamp']);
                           },
                         );
                       }
-                      
-                    }),
-              )),
+                    },
+                  ),
+                ),
+              ),
               //----------------------------------
               Container(
                 width: MediaQuery.of(context).size.width - 20,

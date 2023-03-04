@@ -37,6 +37,7 @@ class _ChatAppState extends State<ChatApp> {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Chat App',
         theme: ThemeData(
           primarySwatch: Colors.blue,

@@ -39,6 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
     //final userId = Provider.of<ChatAppUserProvider>(context).getUser.userId;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Icons.message_outlined,
+        ),
+        onPressed: () {},
+      ),
       appBar: ChatAppAppBar(
         parentNavigator: navigatorState,
         statusBarHeight: statusBarHeight,
@@ -72,12 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
 
-                  List<dynamic> userIdOfOtherUsers =
+                List<dynamic> userIdOfOtherUsers =
                     snapshot2.data!.get('userIdOfOtherUsers');
-                  List<dynamic> messageIdOfOtherUsers =
+                List<dynamic> messageIdOfOtherUsers =
                     snapshot2.data!.get('messageIdOfOtherUsers');
 
-                  return ListView.builder(
+                return ListView.builder(
                   itemCount: userIdOfOtherUsers.length,
                   itemBuilder: (context, index) {
                     return UserToChat(
@@ -87,7 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 );
-            
               },
             );
           },

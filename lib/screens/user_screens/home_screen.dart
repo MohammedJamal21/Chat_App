@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/database_service.dart';
+import '../../widgets/home_screen_widgets/user_to_chat.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -74,14 +75,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   return ListView.builder(
                       itemCount: userIdOfOtherUsers.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.all(10),
-                          color: Colors.red,
-                          child: Text(
-                              "${userIdOfOtherUsers[index]} ${messageIdOfOtherUsers[index]}"),
-                        );
-                      });
-                });
+                    return UserToChat(
+                      userId: userIdOfOtherUsers[index],
+                      chatId: messageIdOfOtherUsers[index],
+                    );
+                  },
+                );
+              },
+            );
           },
         ),
       ),
@@ -89,29 +90,3 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class UserToChat extends StatelessWidget {
-  const UserToChat({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blueGrey,
-      child: ListTile(
-        onTap: () {
-          Navigator.of(context).pushNamed('/chat');
-        },
-        leading: const CircleAvatar(),
-        title: const Text('Hamudi@gmail.com'),
-        subtitle: const Text('Last Message of Convo'),
-        trailing: Column(
-          children: const [
-            Text('Last Message Time'),
-            Text('Last Messaged that i have not see'),
-          ],
-        ),
-      ),
-    );
-  }
-}

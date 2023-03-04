@@ -49,32 +49,37 @@ class _HomeScreenState extends State<HomeScreen> {
               Provider.of<ChatAppUserProvider>(context, listen: false)
                   .getUser
                   .userId),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+          builder: (context, snapshot1) {
+            if (snapshot1.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (!snapshot.hasData) {
+            if (!snapshot1.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
 
             return FutureBuilder(
-                future: snapshot.data!.reference.get(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+              future: snapshot1.data!.reference.get(),
+              builder: (context, snapshot2) {
+                if (snapshot2.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot2.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot2.hasError) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
                   List<dynamic> userIdOfOtherUsers =
-                      snapshot.data!.get('userIDOfOtherUsers');
+                    snapshot2.data!.get('userIdOfOtherUsers');
                   List<dynamic> messageIdOfOtherUsers =
-                      snapshot.data!.get('messageIdOfOtherUsers');
+                    snapshot2.data!.get('messageIdOfOtherUsers');
 
                   return ListView.builder(
-                      itemCount: userIdOfOtherUsers.length,
-                      itemBuilder: (context, index) {
+                  itemCount: userIdOfOtherUsers.length,
+                  itemBuilder: (context, index) {
                     return UserToChat(
                       userId: userIdOfOtherUsers[index],
                       chatId: messageIdOfOtherUsers[index],
@@ -82,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 );
+            
               },
             );
           },
@@ -90,4 +96,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

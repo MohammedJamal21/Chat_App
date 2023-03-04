@@ -36,16 +36,24 @@ class DatabaseService {
     return ChatAppUser(userId: userId, email: email, phoneNumber: phoneNumber);
   }
 
-  Future<void> sendMessage(String message, DateTime timestamp) async {
-    await firebaseFirestore.collection('messages').add({
+  Future<void> sendMessage(
+      String chatId, String message, DateTime timestamp) async {
+    await firebaseFirestore
+        .collection('messages')
+        .doc(chatId)
+        .collection('userMessages')
+        .add({
       'message': message,
       'timestamp': timestamp,
     });
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> chatStream() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> chatStream(String chatId) {
     
-    final collectionReference = firebaseFirestore.collection('messages');
+    final collectionReference = firebaseFirestore
+        .collection('messages')
+        .doc(chatId)
+        .collection('userMessages');
 
     final orderedQuery =
         collectionReference.orderBy('timestamp', descending: true);

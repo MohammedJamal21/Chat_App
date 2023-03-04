@@ -14,10 +14,12 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final messageController = TextEditingController();
+  final databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments;
+    final arg =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
 
     return Scaffold(
       appBar: AppBar(),
@@ -29,9 +31,10 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               Expanded(
                 child: Container(
+                  width: double.infinity,
                   color: Colors.blue,
                   child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                    stream: null,
+                    stream: databaseService.chatStream(arg['chatId']!),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return const CircularProgressIndicator();
@@ -67,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         if (messageController.text != '') {
-                          DatabaseService().sendMessage(
+                          databaseService.sendMessage(arg['chatId']!,
                               messageController.text, DateTime.now());
                           messageController.text = '';
                         }

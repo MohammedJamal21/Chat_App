@@ -78,5 +78,52 @@ class DatabaseService {
     return querySnapshot.docs.isNotEmpty;
   }
 
-  
+  Future<bool> checkIfUserIsInYourFriendList(
+      String userId, String friendUserId) async {
+    final documentReference = firebaseFirestore.collection('users').doc(userId);
+
+    final documentSnapshot = await documentReference.get();
+
+    List<dynamic> userIdOfOtherUsers =
+        documentSnapshot.get('userIdOfOtherUsers');
+
+    return userIdOfOtherUsers.contains(friendUserId);
+  }
+
+  Future<String> whatUserIdTheEmailUses(String email) async {
+    final collectionReference = firebaseFirestore.collection('users');
+    final querySnapshot =
+        await collectionReference.where('email', isEqualTo: email).get();
+    final document = querySnapshot.docs.first;
+    return document.get('userId') as String;
+  }
+
+  Future<void> addUserToChat(String userId, String newFriendUserId) async {
+    final documentReference = firebaseFirestore.collection('users').doc(userId);
+    final friendDocumentReference =
+        firebaseFirestore.collection('users').doc(newFriendUserId);
+
+    final userMessagesReference =
+        await firebaseFirestore.collection('messages').add({
+      'LastMessage': '',
+      'LastMessageTime': '',
+    });
+
+    final collectionReference =
+        userMessagesReference.collection('userMessages');
+
+    documentReference.update(
+      {
+        'userIdOfOtherUsers': FieldValue.arrayUnion([newFriendUserId]),
+        'messageIdOfOtherUsers':
+            FieldValue.arrayUnion([userMessagesReference.id]),
+      },
+    );
+
+    friendDocumentReference.update({
+      'userIdOfOtherUsers': FieldValue.arrayUnion([userId]),
+      'messageIdOfOtherUsers':
+          FieldValue.arrayUnion([userMessagesReference.id]),
+    });
+  }
 }

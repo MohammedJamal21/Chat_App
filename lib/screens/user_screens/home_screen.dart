@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //final userId = Provider.of<ChatAppUserProvider>(context).getUser.userId;
 
     return Scaffold(
-      floatingActionButton: const AddNewUserToChatButton(),
+      floatingActionButton: AddNewUserToChatButton(),
       appBar: ChatAppAppBar(
         parentNavigator: navigatorState,
         statusBarHeight: statusBarHeight,
@@ -98,12 +98,38 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class AddNewUserToChatButton extends StatelessWidget {
-  const AddNewUserToChatButton({
+  AddNewUserToChatButton({
     super.key,
   });
+  final databaseService = DatabaseService();
+  final emailController = TextEditingController();
 
-  void searchForUserToAdd() {
-    FirebaseFirestore.instance.collection('users');
+  Future<void> addUserToChat(BuildContext context) async {
+    if (emailController.text != '') {
+      bool exists =
+          await databaseService.checkIfUserExists(emailController.text);
+      print(exists.toString());
+      if (emailController.text !=
+          Provider.of<ChatAppUserProvider>(context, listen: false)
+              .getUser
+              .email) {
+        final userId =
+            await databaseService.whatUserIdTheEmailUses(emailController.text);
+        if ((await databaseService.checkIfUserIsInYourFriendList(
+                Provider.of<ChatAppUserProvider>(context, listen: false)
+                    .getUser
+                    .userId,
+                userId)) ==
+            false) {
+          await databaseService.addUserToChat(
+              Provider.of<ChatAppUserProvider>(context, listen: false)
+                  .getUser
+                  .userId,
+              userId);
+          print('Done');
+        }
+      }
+    }
   }
 
   @override
@@ -136,12 +162,15 @@ class AddNewUserToChatButton extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await addUserToChat(context);
+                  },
                   child: const Text("Add"),
                 ),
               ],
               title: const Text("Enter the email address"),
-              content: TextFormField(
+              content: TextField(
+                controller: emailController,
                 /*onSaved: (newValue) {
                   email = newValue!;
                 },

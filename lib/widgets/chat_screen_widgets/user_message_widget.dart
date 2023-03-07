@@ -4,39 +4,54 @@ import 'package:flutter/material.dart';
 class UserMessageWidget extends StatelessWidget {
   final String messageText;
   final DateTime messageTime;
+  final bool ownUser;
 
   UserMessageWidget(
-      {super.key, required String message, required Timestamp time})
+      {super.key,
+      required String message,
+      required Timestamp time,
+      required this.ownUser})
       : messageText = message,
         messageTime = time.toDate().toLocal();
+
+  ///.toDate().toLocal();
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment:
+          ownUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
         Flexible(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment:
+                ownUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: [
               Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.zero,
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+                    topLeft: const Radius.circular(20),
+                    topRight: const Radius.circular(20),
+                    bottomLeft: ownUser
+                        ? const Radius.circular(20)
+                        : const Radius.circular(0),
+                    bottomRight: ownUser
+                        ? const Radius.circular(0)
+                        : const Radius.circular(20),
                   ),
                 ),
-                margin: const EdgeInsets.fromLTRB(20, 20, 40, 0),
+                margin: ownUser
+                    ? const EdgeInsets.fromLTRB(40, 0, 20, 5)
+                    : const EdgeInsets.fromLTRB(20, 0, 40, 5),
                 padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-
-                //width: min(a, b),
                 child: Text(messageText),
               ),
               Container(
-                margin: const EdgeInsets.fromLTRB(20, 5, 0, 0),
-                alignment: Alignment.topLeft,
+                margin: ownUser
+                    ? const EdgeInsets.fromLTRB(0, 0, 20, 15)
+                    : const EdgeInsets.fromLTRB(20, 0, 0, 15),
                 child: Text('${messageTime.hour}:${messageTime.minute}'),
               )
             ],

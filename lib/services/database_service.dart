@@ -1,6 +1,8 @@
 import 'package:chat_app/models/chatapp_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+
 class DatabaseService {
   final firebaseFirestore = FirebaseFirestore.instance;
 
@@ -37,14 +39,15 @@ class DatabaseService {
   }
 
   Future<void> sendMessage(
-      String chatId, String message, DateTime timestamp) async {
+      String chatId, String userId, String message) async {
     await firebaseFirestore
         .collection('messages')
         .doc(chatId)
         .collection('userMessages')
         .add({
       'message': message,
-      'timestamp': timestamp,
+      'timestamp': FieldValue.serverTimestamp(),
+      'userId': userId,
     });
   }
 

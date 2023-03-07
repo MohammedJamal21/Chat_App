@@ -43,9 +43,29 @@ class _ChatScreenState extends State<ChatScreen> {
                           reverse: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (snapshot.hasError) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            final timestamp = snapshot.data!.docs[index]
+                                ['timestamp'] as Timestamp?;
+                            final estimatedTimestamp =
+                                timestamp ?? Timestamp.now();
+
                             return UserMessageWidget(
+                                ownUser: (snapshot.data!.docs[index]
+                                        ['userId'] ==
+                                    arg['userId']!),
                                 message: snapshot.data!.docs[index]['message'],
-                                time: snapshot.data!.docs[index]['timestamp']);
+                                time: estimatedTimestamp);
                           },
                         );
                       }
@@ -71,7 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       onPressed: () {
                         if (messageController.text != '') {
                           databaseService.sendMessage(arg['chatId']!,
-                              messageController.text, DateTime.now());
+                              arg['userId']!, messageController.text);
                           messageController.text = '';
                         }
                       },

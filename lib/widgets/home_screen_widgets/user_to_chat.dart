@@ -23,7 +23,9 @@ class UserToChat extends StatefulWidget {
 
 class _UserToChatState extends State<UserToChat> {
   final DatabaseService databaseService = DatabaseService();
-  //late String username;
+  String lastMessageText = '';
+  DateTime lastMessageTime = DateTime(0, 0, 0, 0, 0);
+  String lastMessageTimeInText = '';
 
   Future<String> showUsername(String userId) async {
     ChatAppUser user = await databaseService.findUserInDatabaseByUid(userId);
@@ -33,6 +35,37 @@ class _UserToChatState extends State<UserToChat> {
 
   @override
   Widget build(BuildContext context) {
+    Widget? lastMessageAndTimeStreamBuilder(String lastMessage) {
+      return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: databaseService.showLastMessageAndTime(widget.chatId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container();
+          }
+          if (snapshot.hasError) {
+            return Container();
+          }
+          if (lastMessage == 'lastMessageText') {
+            return Text(snapshot.data!.data()!['LastMessage'] ?? '');
+          }
+          if (lastMessage == 'lastMessageTime') {
+            Timestamp timestamp =
+                snapshot.data!.data()!['LastMessageTime'] ?? Timestamp(0, 0);
+            DateTime dateTime = timestamp.toDate().toLocal();
+
+            return Text(
+              '${dateTime.hour}:${dateTime.minute}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            );
+          }
+          return const Text('');
+        },
+      );
+    }
+
     return GestureDetector(
       onTap: () {
         widget.navigatorState.pushNamed('/chat', arguments: {
@@ -48,6 +81,7 @@ class _UserToChatState extends State<UserToChat> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircleAvatar(
               radius: 18,
@@ -56,36 +90,37 @@ class _UserToChatState extends State<UserToChat> {
               width: 10,
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FutureBuilder(
-                    future: showUsername(widget.userId),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text('');
-                      }
-                      if (!snapshot.hasData) {
-                        return const Text('');
-                      }
-                      return Text(
-                        snapshot.data!,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
+                  future: showUsername(widget.userId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('');
+                    }
+                    if (!snapshot.hasData) {
+                      return const Text('');
+                    }
+                    return Text(
+                      snapshot.data!,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
                   },
                 ),
-                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-                    stream:
-                        databaseService.showLastMessageAndTime(widget.chatId),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container();
-                      }
-                      if (snapshot.hasError) {
-                        return Container();
-                      }
-                      return Text(snapshot.data!.data()!['LastMessage'] ?? '');
-                    }),
+                lastMessageAndTimeStreamBuilder('lastMessageText')!,
+              ],
+            ),
+            const Spacer(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                lastMessageAndTimeStreamBuilder('lastMessageTime')!,
+                const SizedBox(
+                  height: 15,
+                ),
               ],
             ),
           ],

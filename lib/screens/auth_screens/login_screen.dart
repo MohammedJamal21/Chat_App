@@ -26,7 +26,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final AuthService authService = AuthService();
   final DatabaseService databaseService = DatabaseService();
-  ChatAppUser chatAppUser = ChatAppUser(userId: '', email: '', phoneNumber: '');
+  ChatAppUser chatAppUser = ChatAppUser(userId: '', email: '', phoneNumber: '', firstName: '', surname: '');
   ChatAppUserProvider? _chatAppUserProvider;
 
   bool isLoading = false;
@@ -95,7 +95,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Login'),
+              const Text(
+                'Login',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
               const SizedBox(
                 height: 50,
               ),

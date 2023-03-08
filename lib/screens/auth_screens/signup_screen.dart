@@ -29,7 +29,13 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Sign Up'),
+                  const Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
                   const SizedBox(
                     height: 50,
                   ),
@@ -45,7 +51,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         onPressed: () {
                           widget.changeScreenToLogin();
                         },
-                        child: const Text('Sign Up'),
+                        child: const Text('Login'),
                       ),
                     ],
                   ),

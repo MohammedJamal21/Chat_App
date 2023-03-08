@@ -17,6 +17,8 @@ class _SignupFormState extends State<SignupForm> {
   String email = '';
   String password = '';
   String phoneNumber = '';
+  String firstName = '';
+  String surname = '';
   bool isLoading = false;
   final authService = AuthService();
   final databaseService = DatabaseService();
@@ -41,7 +43,7 @@ class _SignupFormState extends State<SignupForm> {
       await authService.signUp(email, password).then(
         (userCredential) async {
           await databaseService.addNewUserDataToDatabase(
-              userCredential!.user!.uid, email, phoneNumber);
+              userCredential!.user!.uid, email, phoneNumber, firstName, surname);
         },
       );
     }
@@ -54,6 +56,60 @@ class _SignupFormState extends State<SignupForm> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              child: TextFormField(
+                onSaved: (newValue) {
+                  firstName = newValue!;
+                },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your first name';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(
+                  labelText: "First name*",
+                  floatingLabelAlignment: FloatingLabelAlignment.start,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 30,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              child: TextFormField(
+                onSaved: (newValue) {
+                  surname = newValue!;
+                },
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your surname';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(
+                  labelText: "Surname*",
+                  floatingLabelAlignment: FloatingLabelAlignment.start,
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 30,
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 10,

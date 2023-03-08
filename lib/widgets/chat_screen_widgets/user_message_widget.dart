@@ -14,8 +14,6 @@ class UserMessageWidget extends StatelessWidget {
       : messageText = message,
         messageTime = time.toDate().toLocal();
 
-  ///.toDate().toLocal();
-
   @override
   Widget build(BuildContext context) {
     return Row(

@@ -9,11 +9,17 @@ class ChatAppUserProvider extends ChangeNotifier {
   //DateTime? _expiresIn;
   //Timer? _authTimer;
   ChatAppUser _chatAppUser =
-      ChatAppUser(userId: '', email: '', phoneNumber: '');
+      ChatAppUser(
+    userId: '',
+    email: '',
+    phoneNumber: '',
+    firstName: '',
+    surname: '',
+  );
 
   void setUser(ChatAppUser user) {
     _chatAppUser = user;
-    print('from Provider!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ewffwfffwwffwff!!');
+    print('from Provider!');
     notifyListeners();
   }
 

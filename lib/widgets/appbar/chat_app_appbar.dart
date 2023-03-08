@@ -65,8 +65,8 @@ class _ChatAppAppBarState extends State<ChatAppAppBar> {
                   child: Text('Archived Messages'),
                 ),
                 const PopupMenuItem(
-                  child: Text('Settings'),
                   value: 'settings',
+                  child: Text('Settings'),
                 ),
               ];
             },
@@ -98,10 +98,10 @@ class _ChatAppAppBarState extends State<ChatAppAppBar> {
                 ),
                 Consumer<ChatAppUserProvider>(
                   builder: (ctx, user, _) {
-                    String email = user.getUser.email;
+                    String firstName = user.getUser.firstName;
 
                     return Text(
-                      email,
+                      firstName,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,

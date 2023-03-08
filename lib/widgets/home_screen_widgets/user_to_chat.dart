@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:chat_app/services/database_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/chatapp_user.dart';
@@ -27,7 +28,7 @@ class _UserToChatState extends State<UserToChat> {
   Future<String> showUsername(String userId) async {
     ChatAppUser user = await databaseService.findUserInDatabaseByUid(userId);
 
-    return user.email;
+    return '${user.firstName} ${user.surname}';
   }
 
   @override
@@ -43,7 +44,7 @@ class _UserToChatState extends State<UserToChat> {
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.blue.shade100,
+          color: Colors.blue.shade50,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -71,8 +72,20 @@ class _UserToChatState extends State<UserToChat> {
                           fontWeight: FontWeight.bold,
                         ),
                       );
+                  },
+                ),
+                StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                    stream:
+                        databaseService.showLastMessageAndTime(widget.chatId),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container();
+                      }
+                      if (snapshot.hasError) {
+                        return Container();
+                      }
+                      return Text(snapshot.data!.data()!['LastMessage'] ?? '');
                     }),
-                const Text(''),
               ],
             ),
           ],

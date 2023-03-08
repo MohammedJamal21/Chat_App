@@ -1,8 +1,6 @@
 import 'package:chat_app/models/chatapp_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
 class DatabaseService {
   final firebaseFirestore = FirebaseFirestore.instance;
 
@@ -10,6 +8,8 @@ class DatabaseService {
     String userId,
     String email,
     String phoneNumber,
+    String firstName,
+    String surname,
   ) async {
     try {
       await firebaseFirestore.collection('users').doc(userId).set(
@@ -17,6 +17,10 @@ class DatabaseService {
           'userId': userId,
           'email': email,
           'phoneNumber': phoneNumber,
+          'firstName': firstName,
+          'surname': surname,
+          'messageIdOfOtherUsers': [],
+          'userIdOfOtherUsers': [],
         },
       );
     } catch (error) {
@@ -33,21 +37,34 @@ class DatabaseService {
     final userId = user['userId'];
     final email = user['email'];
     final phoneNumber = user['phoneNumber'];
+    final firstName = user['firstName'];
+    final surname = user['surname'];
 
     print(userId + email + phoneNumber);
-    return ChatAppUser(userId: userId, email: email, phoneNumber: phoneNumber);
+    return ChatAppUser(
+        userId: userId,
+        email: email,
+        phoneNumber: phoneNumber,
+        firstName: firstName,
+        surname: surname);
   }
 
-  Future<void> sendMessage(
-      String chatId, String userId, String message) async {
+  Future<void> sendMessage(String chatId, String userId, String message) async {
+    final timeValue = FieldValue.serverTimestamp();
+
     await firebaseFirestore
         .collection('messages')
         .doc(chatId)
         .collection('userMessages')
         .add({
       'message': message,
-      'timestamp': FieldValue.serverTimestamp(),
+      'timestamp': timeValue,
       'userId': userId,
+    });
+
+    await firebaseFirestore.collection('messages').doc(chatId).update({
+      'LastMessage': message,
+      'LastMessageTime': timeValue,
     });
   }
 
@@ -63,6 +80,14 @@ class DatabaseService {
     final orderedStream = orderedQuery.snapshots();
 
     return orderedStream;
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> showLastMessageAndTime(
+      String chatId) {
+    final collectionReference =
+        firebaseFirestore.collection('messages').doc(chatId);
+
+    return collectionReference.snapshots();
   }
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> showUsersToChat(

@@ -3,6 +3,8 @@ import 'package:chat_app/widgets/chat_screen_widgets/user_message_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/appbar/chat_screen_app_bar.dart';
+
 class ChatScreen extends StatefulWidget {
   static const routeName = '/chat';
 
@@ -22,7 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const ChatScreenAppBar(),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

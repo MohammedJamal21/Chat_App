@@ -24,7 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
 
     return Scaffold(
-      appBar: const ChatScreenAppBar(),
+      appBar: ChatScreenAppBar(userName: arg['userId']!),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

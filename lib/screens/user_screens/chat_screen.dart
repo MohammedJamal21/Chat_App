@@ -24,7 +24,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
 
     return Scaffold(
-      appBar: ChatScreenAppBar(userName: arg['userId']!),
+      appBar: ChatScreenAppBar(userName: arg['userName']!),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -34,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
               Expanded(
                 child: Container(
                   width: double.infinity,
-                  color: Colors.blue,
+                  color: Colors.white,
                   child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                     stream: databaseService.chatStream(arg['chatId']!),
                     builder: (context, snapshot) {
@@ -77,8 +77,10 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               //----------------------------------
               Container(
-                width: MediaQuery.of(context).size.width - 20,
-                color: Colors.yellow,
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                color: Colors.white,
                 child: TextField(
                   controller: messageController,
                   decoration: InputDecoration(

@@ -1,22 +1,34 @@
-import 'package:chat_app/services/database_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/chatapp_user.dart';
 
 class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String userName;
 
   const ChatScreenAppBar({Key? key, required this.userName}) : super(key: key);
 
-  Future<String> showUsername(String userId) async {
+  /*Future<String> showUsername(String userId) async {
     ChatAppUser user = await DatabaseService().findUserInDatabaseByUid(userId);
 
     return '${user.firstName} ${user.surname}';
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(  
+    return AppBar(
+      bottom: PreferredSize(
+          preferredSize: preferredSize,
+          child: Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+              ),
+            ),
+          )),
+      elevation: 0,
+      backgroundColor: Colors.white,
       toolbarHeight: 70,
       automaticallyImplyLeading: false,
       actions: [
@@ -24,6 +36,7 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
           onPressed: () {},
           icon: const Icon(
             Icons.videocam_outlined,
+            color: Colors.black,
           ),
         ),
         Padding(
@@ -32,6 +45,7 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: () {},
             icon: const Icon(
               Icons.call_outlined,
+              color: Colors.black,
             ),
           ),
         ),
@@ -45,7 +59,10 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(
               width: 10,
@@ -60,19 +77,21 @@ class ChatScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  'Name',
-                  style: TextStyle(
+                  userName,
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
-                Text(
+                const Text(
                   'Online',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
+                    color: Colors.grey,
                   ),
                 ),
               ],

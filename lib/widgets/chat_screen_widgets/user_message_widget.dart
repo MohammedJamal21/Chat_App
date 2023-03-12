@@ -28,7 +28,7 @@ class UserMessageWidget extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: ownUser ? Colors.blue.shade300 : Colors.blue.shade100,
                   borderRadius: BorderRadius.only(
                     topLeft: const Radius.circular(20),
                     topRight: const Radius.circular(20),
@@ -50,7 +50,14 @@ class UserMessageWidget extends StatelessWidget {
                 margin: ownUser
                     ? const EdgeInsets.fromLTRB(0, 0, 20, 15)
                     : const EdgeInsets.fromLTRB(20, 0, 0, 15),
-                child: Text('${messageTime.hour}:${messageTime.minute}'),
+                child: Text(
+                  '${messageTime.hour}:${messageTime.minute}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
               )
             ],
           ),

@@ -67,10 +67,11 @@ class _UserToChatState extends State<UserToChat> {
     }
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         widget.navigatorState.pushNamed('/chat', arguments: {
           'userId': widget.userId,
           'chatId': widget.chatId,
+          'userName': await showUsername(widget.userId),
         });
       },
       child: Container(

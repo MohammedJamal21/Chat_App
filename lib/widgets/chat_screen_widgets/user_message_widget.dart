@@ -16,6 +16,9 @@ class UserMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String hour = '${messageTime.hour}'.padLeft(2, '0');
+    String minute = '${messageTime.minute}'.padLeft(2, '0');
+ 
     return Row(
       mainAxisAlignment:
           ownUser ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -51,7 +54,7 @@ class UserMessageWidget extends StatelessWidget {
                     ? const EdgeInsets.fromLTRB(0, 0, 20, 15)
                     : const EdgeInsets.fromLTRB(20, 0, 0, 15),
                 child: Text(
-                  '${messageTime.hour}:${messageTime.minute}',
+                  '$hour:$minute',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.grey,

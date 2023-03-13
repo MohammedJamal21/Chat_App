@@ -52,9 +52,11 @@ class _UserToChatState extends State<UserToChat> {
             Timestamp timestamp =
                 snapshot.data!.data()!['LastMessageTime'] ?? Timestamp(0, 0);
             DateTime dateTime = timestamp.toDate().toLocal();
+            String hour = '${dateTime.hour}'.padLeft(2, '0');
+            String minute = '${dateTime.minute}'.padLeft(2, '0');
 
             return Text(
-              '${dateTime.hour}:${dateTime.minute}',
+              '$hour:$minute',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 12,

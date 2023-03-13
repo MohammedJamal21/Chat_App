@@ -37,6 +37,10 @@ class _ChatAppAppBarState extends State<ChatAppAppBar> {
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
           child: PopupMenuButton(
+            color: Colors.white.withOpacity(0.80),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
             onSelected: (value) {
               if (value == 'settings') {
                 widget.parentNavigator.pushNamed('/settings');
@@ -50,23 +54,53 @@ class _ChatAppAppBarState extends State<ChatAppAppBar> {
             itemBuilder: (context) {
               return [
                 const PopupMenuItem(
-                  child: Text('New Group'),
+                  child: Text(
+                    'New Group',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 const PopupMenuItem(
-                  child: Text('New Broadcast'),
+                  child: Text(
+                    'New Broadcast',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 const PopupMenuItem(
-                  child: Text('Linked Devices'),
+                  child: Text(
+                    'Linked Devices',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 const PopupMenuItem(
-                  child: Text('Stored Messages'),
+                  child: Text(
+                    'Stored Messages',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 const PopupMenuItem(
-                  child: Text('Archived Messages'),
+                  child: Text(
+                    'Archived Messages',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 const PopupMenuItem(
                   value: 'settings',
-                  child: Text('Settings'),
+                  child: Text(
+                    'Settings',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ];
             },

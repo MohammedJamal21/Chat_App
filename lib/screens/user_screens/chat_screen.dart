@@ -79,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 color: Colors.white,
                 child: TextField(
                   controller: messageController,

@@ -15,6 +15,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  /*FirebaseCoreWeb.registerService('auth', (app) {
+    return () async {
+      return FirebaseAuth.instance;
+    };
+  });*/
+  
   runApp(const ChatApp());
 }
 

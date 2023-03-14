@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../services/auth_service.dart';
 import '../../services/database_service.dart';
@@ -25,6 +29,51 @@ class _SignupFormState extends State<SignupForm> {
 
   final _passwordController = TextEditingController();
 
+  File? _image;
+  final picker = ImagePicker();
+
+  Future getImageFromCamera() async {
+    final pickedFile = await picker.pickImage(
+        source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<void> getImageFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<String> uploadImageToFirebase() async {
+    if (_image == null) {
+      return "";
+    }
+
+    // Create a reference to the image file
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
+    final firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+
+    // Upload the image file to Firebase Storage
+    final task = await firebaseStorageRef.putFile(_image!);
+    final imageUrl = await task.ref.getDownloadURL();
+
+    // Do something with the image URL, such as storing it in Firestore
+    return imageUrl;
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -40,10 +89,17 @@ class _SignupFormState extends State<SignupForm> {
 
     if (isValid) {
       _form.currentState!.save();
+
       await authService.signUp(email, password).then(
         (userCredential) async {
+          String image = await uploadImageToFirebase();
           await databaseService.addNewUserDataToDatabase(
-              userCredential!.user!.uid, email, phoneNumber, firstName, surname);
+              userCredential!.user!.uid,
+              email,
+              phoneNumber,
+              firstName,
+              surname,
+              image);
         },
       );
     }
@@ -56,6 +112,57 @@ class _SignupFormState extends State<SignupForm> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            Column(
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: _image != null ? FileImage(_image!) : null,
+                  child:
+                      _image != null ? const Text('') : const Text('No image'),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton.icon(
+                        style: ButtonStyle(
+                            shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            elevation: const MaterialStatePropertyAll(
+                              0,
+                            ),
+                            padding: const MaterialStatePropertyAll(
+                                EdgeInsets.fromLTRB(15, 10, 15, 10))),
+                        onPressed: () async {
+                          await getImageFromCamera();
+                        },
+                        icon: const Icon(
+                          Icons.camera,
+                        ),
+                        label: const Text('Take a picture'),
+                      ),
+                      ElevatedButton.icon(
+                          style: ButtonStyle(
+                              shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                              elevation: const MaterialStatePropertyAll(
+                                0,
+                              ),
+                              padding: const MaterialStatePropertyAll(
+                                  EdgeInsets.fromLTRB(15, 10, 15, 10))),
+                          onPressed: () async {
+                            await getImageFromGallery();
+                          },
+                          icon: const Icon(Icons.image_search_rounded),
+                          label: const Text('Choose from gallery'))
+                    ],
+                  ),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 10,

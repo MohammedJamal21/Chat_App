@@ -37,11 +37,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 15,
                   ),
                   const SignupForm(),
                   const SizedBox(
-                    height: 50,
+                    height: 5,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

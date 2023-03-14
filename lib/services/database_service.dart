@@ -10,6 +10,7 @@ class DatabaseService {
     String phoneNumber,
     String firstName,
     String surname,
+    String imageUrl,
   ) async {
     try {
       await firebaseFirestore.collection('users').doc(userId).set(
@@ -21,6 +22,7 @@ class DatabaseService {
           'surname': surname,
           'messageIdOfOtherUsers': [],
           'userIdOfOtherUsers': [],
+          'imageUrl': imageUrl,
         },
       );
     } catch (error) {

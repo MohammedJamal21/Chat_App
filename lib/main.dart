@@ -20,7 +20,7 @@ void main() async {
       return FirebaseAuth.instance;
     };
   });*/
-  
+
   runApp(const ChatApp());
 }
 

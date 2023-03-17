@@ -26,7 +26,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final AuthService authService = AuthService();
   final DatabaseService databaseService = DatabaseService();
-  ChatAppUser chatAppUser = ChatAppUser(userId: '', email: '', phoneNumber: '', firstName: '', surname: '');
+  ChatAppUser chatAppUser = ChatAppUser(userId: '', email: '', phoneNumber: '', firstName: '', surname: '', imageUrl: '');
   ChatAppUserProvider? _chatAppUserProvider;
 
   bool isLoading = false;

@@ -89,7 +89,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const Spacer(),
           ElevatedButton(
               onPressed: () async {
-                await FirebaseAuth.instance.currentUser!.reload();
+                
                 await FirebaseAuth.instance.signOut();
                 Navigator.of(context).pop();
               },

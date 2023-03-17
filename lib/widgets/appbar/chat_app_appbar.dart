@@ -112,10 +112,15 @@ class _ChatAppAppBarState extends State<ChatAppAppBar> {
         padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
         child: Row(
           children: [
-            const CircleAvatar(
-              backgroundColor: Colors.black,
-              radius: 16,
-            ),
+            Consumer<ChatAppUserProvider>(builder: (ctx, user, _) {
+              String imageUrl = user.getUser.imageUrl;
+
+              return CircleAvatar(
+                backgroundColor: Colors.blue,
+                radius: 16,
+                backgroundImage: imageUrl != '' ? NetworkImage(imageUrl) : null,
+              );
+            }),
             const SizedBox(
               width: 10,
             ),

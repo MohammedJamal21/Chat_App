@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -30,11 +29,16 @@ class _SignupFormState extends State<SignupForm> {
   final _passwordController = TextEditingController();
 
   File? _image;
-  final picker = ImagePicker();
+  final ImagePicker picker = ImagePicker();
 
   Future getImageFromCamera() async {
-    final pickedFile = await picker.pickImage(
-        source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
+    final XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.camera,
+      preferredCameraDevice: CameraDevice.front,
+      //maxHeight: 200,
+      //maxWidth: 200,
+      //imageQuality: 50,
+    );
 
     setState(() {
       if (pickedFile != null) {
@@ -46,7 +50,12 @@ class _SignupFormState extends State<SignupForm> {
   }
 
   Future<void> getImageFromGallery() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      //maxHeight: 200,
+      //maxWidth: 200,
+      //imageQuality: 500,
+    );
 
     setState(() {
       if (pickedFile != null) {
@@ -57,22 +66,24 @@ class _SignupFormState extends State<SignupForm> {
     });
   }
 
-  Future<String> uploadImageToFirebase() async {
-    if (_image == null) {
-      return "";
+  
+  /*
+    try {
+      final TaskSnapshot task =
+          await print('HALLLLLAAAAAAWWWWW!!!!!!!!!!!!!!4');
+
+      final imageUrl = await task.ref.getDownloadURL();
+      print(
+          'warrrrrrrrrrrrrrrrrrrrrrraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaajfijejjefjejfijjjjjjjjjjjjjjjjjjj$imageUrl');
+      return imageUrl;
+    } catch (error) {
+      print('Keshayayaaaaaaaaaaa');
+      print(error);
+      return '';
     }
-
-    // Create a reference to the image file
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
-    final firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
-
-    // Upload the image file to Firebase Storage
-    final task = await firebaseStorageRef.putFile(_image!);
-    final imageUrl = await task.ref.getDownloadURL();
-
-    // Do something with the image URL, such as storing it in Firestore
-    return imageUrl;
-  }
+      */
+  // Do something with the image URL, such as storing it in Firestore
+  //}
 
   @override
   void dispose() {
@@ -90,18 +101,20 @@ class _SignupFormState extends State<SignupForm> {
     if (isValid) {
       _form.currentState!.save();
 
-      await authService.signUp(email, password).then(
-        (userCredential) async {
-          String image = await uploadImageToFirebase();
+      await authService.signUp(email, password).then((valueSuper) async {
+          
           await databaseService.addNewUserDataToDatabase(
-              userCredential!.user!.uid,
-              email,
-              phoneNumber,
-              firstName,
-              surname,
-              image);
-        },
-      );
+          valueSuper!.user!.uid,
+          email,
+          phoneNumber,
+          firstName,
+          surname,
+          _image,
+        );
+        
+      }); //.then(
+
+      //);
     }
   }
 

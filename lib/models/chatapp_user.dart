@@ -5,6 +5,7 @@ class ChatAppUser {
   final String phoneNumber;
   final String firstName;
   final String surname;
+  final String imageUrl;
 
   ChatAppUser({
     required this.userId,
@@ -12,5 +13,6 @@ class ChatAppUser {
     required this.phoneNumber,
     required this.firstName,
     required this.surname,
+    required this.imageUrl,
   });
 }

@@ -15,6 +15,7 @@ class ChatAppUserProvider extends ChangeNotifier {
     phoneNumber: '',
     firstName: '',
     surname: '',
+    imageUrl: '',
   );
 
   void setUser(ChatAppUser user) {

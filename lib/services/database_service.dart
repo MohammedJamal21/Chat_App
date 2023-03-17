@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:chat_app/models/chatapp_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
   final firebaseFirestore = FirebaseFirestore.instance;
@@ -10,9 +13,11 @@ class DatabaseService {
     String phoneNumber,
     String firstName,
     String surname,
-    String imageUrl,
+    File? image,
   ) async {
     try {
+      String imageUrl = await uploadImageToFirebase(image!);
+
       await firebaseFirestore.collection('users').doc(userId).set(
         {
           'userId': userId,
@@ -30,25 +35,92 @@ class DatabaseService {
     }
   }
 
-  Future<ChatAppUser> findUserInDatabaseByUid(String uid) async {
-    DocumentSnapshot<Map<String, dynamic>> userData =
-        await firebaseFirestore.collection('users').doc(uid).get();
+  Future<String> uploadImageToFirebase(File image) async {
+    if (image == null) {
+      print(
+          'ijifjfjijfiHELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLjie1');
+      return "";
+    }
+    print('HALLLLLAAAAAAWWWWW!!!!!!!!!!!!!!2');
+    // Create a reference to the image file
 
-    final user = userData.data()!;
+    final Reference firebaseStorageRef = FirebaseStorage.instance.ref();
+
+    print('XXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMMMM1');
+
+    final Reference referenceOfUsersImages =
+        firebaseStorageRef.child('profilePictures');
+    //.child(fileName);
+
+    print('XXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMMMM2');
+
+    String uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    print('XXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMMMM3');
+
+    final Reference referenceOfUserImage =
+        referenceOfUsersImages.child(uniqueFileName);
+    //final fileName = '${DateTime.now().millisecondsSinceEpoch}.png';
+
+    print('HALLLLLAAAAAAWWWWW!!!!!!!!!!!!!!3');
+    // Upload the image file to Firebase Storage
+
+    try {
+      print('XXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMMMM4');
+
+      await referenceOfUserImage.putFile(image);
+
+      String urlImage = '';
+
+      print('XXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMMMM5');
+
+      urlImage = await referenceOfUserImage.getDownloadURL();
+
+      print('XXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOOOOOOOOOOOMMMMMMMMMMMMMMMMMMMM6');
+
+      //String url = await referenceOfUserImage.getDownloadURL();
+
+      return urlImage;
+    } catch (err) {
+      print(
+          '1111111111111111111111122222222222222222222222233333333333333333333333333444444444444455555555555555');
+      print(err);
+      return '';
+    }
+  }
+
+  Future<ChatAppUser> findUserInDatabaseByUid(String uid) async {
+    bool dataAvailable = false;
+
+    DocumentSnapshot<Map<String, dynamic>>? userData;
+
+    while (!dataAvailable) {
+      userData = await firebaseFirestore.collection('users').doc(uid).get();
+      dataAvailable = userData.exists;
+      if (!dataAvailable) {
+        // Wait for 1 second before retrying
+        await Future.delayed(const Duration(seconds: 2));
+      }
+    }
+
+    final user = userData!.data()!;
 
     final userId = user['userId'];
     final email = user['email'];
     final phoneNumber = user['phoneNumber'];
     final firstName = user['firstName'];
     final surname = user['surname'];
+    final imageUrl = user['imageUrl'];
 
     print(userId + email + phoneNumber);
     return ChatAppUser(
-        userId: userId,
-        email: email,
-        phoneNumber: phoneNumber,
-        firstName: firstName,
-        surname: surname);
+      userId: userId,
+      email: email,
+      phoneNumber: phoneNumber,
+      firstName: firstName,
+      surname: surname,
+      imageUrl: imageUrl,
+    );
   }
 
   Future<void> sendMessage(String chatId, String userId, String message) async {
